@@ -215,7 +215,7 @@ def get_sheet_schema_columns(sheet):
             }
             columns.append(column)
 
-            if column_gs_type in {'numberType.DATE_TIME', 'numberType.DATE', 'numberType.TIME', 'numberType'}:
+            if column_gs_type in {'numberType.DATE_TIME', 'numberType.DATE', 'numberType.TIME'}:
                 col_properties['type'] = ['null', 'string']
             #    col_properties = {
             #        'anyOf': [
@@ -224,6 +224,8 @@ def get_sheet_schema_columns(sheet):
             #        ]
             #    }
             # add the column properties in the `properties` in json schema for the respective column name
+            if column_gs_type == 'numberType':
+                col_properties['type'] = ['null', 'number']
             sheet_json_schema['properties'][column_name] = col_properties
 
         prior_header = column_name
